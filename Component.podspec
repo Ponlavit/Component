@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'Component'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of Component.'
+  s.summary          = 'Share view component included VM and V'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -17,9 +17,7 @@ Pod::Spec.new do |s|
 #   * Write the description between the DESC delimiters below.
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
-  s.description      = <<-DESC
-TODO: Add long description of the pod here.
-                       DESC
+  s.description      = 'This is description'
 
   s.homepage         = 'https://github.com/Ponlavit/Component'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
@@ -28,15 +26,18 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/Ponlavit/Component.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
 
   s.source_files = 'Component/Classes/**/*'
   
-  # s.resource_bundles = {
-  #   'Component' => ['Component/Assets/*.png']
-  # }
+  s.resource_bundles = {
+    'Component' => ['Component/Classes/**/*/*.xib']
+  }
+  
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.dependency 'RxSwift',    '~> 4.0'
+  s.dependency 'RxCocoa',    '~> 4.0'
+  s.dependency 'Base'
 end

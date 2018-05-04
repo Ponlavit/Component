@@ -1,0 +1,33 @@
+{
+  "name": "Component",
+  "version": "0.1.0",
+  "summary": "Share view component included VM and V",
+  "description": "This is description",
+  "homepage": "https://github.com/Ponlavit/Component",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Ponlavit": "ponlavit.lar@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/Ponlavit/Component.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "Component/Classes/**/*",
+  "dependencies": {
+    "RxSwift": [
+      "~> 4.0"
+    ],
+    "RxCocoa": [
+      "~> 4.0"
+    ],
+    "Base": [
+
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SimpleButton"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" insetsLayoutMarginsFromSafeArea="NO" id="iN0-l3-epB" customClass="SimpleButton" customModule="Component" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="200" height="40"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hUm-kU-awv">
+                    <rect key="frame" x="0.0" y="0.0" width="200" height="40"/>
+                    <state key="normal" title="title">
+                        <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                </button>
+            </subviews>
+            <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+            <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="hUm-kU-awv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="A1j-Eo-x67"/>
+                <constraint firstAttribute="bottom" secondItem="hUm-kU-awv" secondAttribute="bottom" id="Uj5-Ii-j5m"/>
+                <constraint firstAttribute="trailing" secondItem="hUm-kU-awv" secondAttribute="trailing" id="iK8-j5-xOA"/>
+                <constraint firstItem="hUm-kU-awv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="pOi-cU-fl0"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="button" destination="hUm-kU-awv" id="v8O-Fg-uzm"/>
+            </connections>
+        </view>
+    </objects>
+</document>
