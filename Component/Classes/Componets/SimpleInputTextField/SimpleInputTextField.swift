@@ -11,6 +11,8 @@ public class SimpleInputTextFieldModel : ComponentViewModel {
     public var title = Variable<String>("")
     public var isVisible = Variable<Bool>(true)
     public var keyboardType = Variable<UIKeyboardType>(UIKeyboardType.default)
+    public var font = Variable<UIFont>(UIFont.systemFont(ofSize: UIFont.systemFontSize))
+    public var maxLength = Variable<Int>(0)
     
     public convenience init(_ name: String!) {
         self.init(withName: name,nibName: "SimpleInputTextField")
@@ -80,6 +82,29 @@ public class SimpleInputTextField : BaseView {
                 let tmpString = self?.textField?.text;
                 self?.textField?.text = " ";
                 self?.textField?.text = tmpString;
+            })
+        .disposed(by: bag)
+        
+        self.getModel().input.asObservable()
+            .subscribe(onNext: {[weak self] value in
+                if(self?.getModel().maxLength.value != 0) {
+                    guard let max = self?.getModel().maxLength.value else { return }
+                    let newValue = String(value.prefix(max))
+                    self?.textField?.text = newValue
+                    if(value != newValue) {
+                        self?.getModel().input.value = String(value.prefix(max))
+                    }
+                }
+                else {
+                    self?.textField?.text = value
+                }
+            })
+        .disposed(by: bag)
+        
+        self.getModel().font.asObservable()
+            .subscribe(onNext: {[weak self] value in
+                self?.titleField?.font = value
+                self?.textField?.font = value
             })
         .disposed(by: bag)
         

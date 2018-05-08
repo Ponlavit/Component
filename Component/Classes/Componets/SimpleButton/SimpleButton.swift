@@ -5,14 +5,16 @@ import RxCocoa
 import RxSwift
 
 
-public class SimpleButtonModel: ComponentViewModel {
+public class SimpleButtonViewModel: ComponentViewModel {
     public var title = Variable<String>("")
     public var disbleTitle = Variable<String>("")
     public var isEnable = Variable<Bool>(true)
     public var disableColor = Variable<UIColor>(UIColor.lightGray)
     public var enableColor = Variable<UIColor>(UIColor.red)
+    public var font = Variable<UIFont>(UIFont.systemFont(ofSize: UIFont.systemFontSize))
+    public var height = Variable<CGFloat>(30)
     public var onPress: (() -> Void)?
-    
+
     public convenience init(_ name: String!) {
         self.init(withName: name,nibName: "SimpleButton")
     }
@@ -36,12 +38,16 @@ public class SimpleButton : BaseView {
         super.setupView()
     }
 
-    public override func getModel() -> SimpleButtonModel{
-        return self.viewModel as! SimpleButtonModel
+    public override func getModel() -> SimpleButtonViewModel{
+        return self.viewModel as! SimpleButtonViewModel
     }
     
     public override func getPercentWidth() -> CGFloat {
         return getModel().percentWidth.value
+    }
+    
+    public override func getHeight() -> CGFloat {
+        return getModel().height.value
     }
     
     public override func bind() {
@@ -91,6 +97,13 @@ public class SimpleButton : BaseView {
                     self?.getModel().enableColor.value : self?.getModel().disableColor.value
                 self?.backgroundColor = color
             }).disposed(by: bag)
+        
+        self.getModel().font.asObservable()
+            .subscribe(onNext: {[weak self] value in
+                self?.button?.titleLabel?.font = value
+            })
+            .disposed(by: bag)
+        
         
         super.bind()
     }
