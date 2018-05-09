@@ -13,6 +13,7 @@ public class SimpleInputTextFieldModel : ComponentViewModel {
     public var keyboardType = Variable<UIKeyboardType>(UIKeyboardType.default)
     public var font = Variable<UIFont>(UIFont.systemFont(ofSize: UIFont.systemFontSize))
     public var maxLength = Variable<Int>(0)
+    public var autoCorrection = Variable<Bool>(false)
     
     public convenience init(_ name: String!) {
         self.init(withName: name,nibName: "SimpleInputTextField")
@@ -33,6 +34,14 @@ public class SimpleInputTextField : BaseView {
     
     public override func setupView() {
         super.setupView()
+    }
+    
+    public override func setupAccessibilityId() {
+        self.textField?.accessibilityIdentifier =
+        "\(getModel().name!).\(self.textField?.accessibilityIdentifier ?? "textField")"
+        self.titleField?.accessibilityIdentifier =
+        "\(getModel().name!).\(self.titleField?.accessibilityIdentifier ?? "titleField")"
+        super.setupAccessibilityId()
     }
     
     public override func getPercentWidth() -> CGFloat {
@@ -65,6 +74,12 @@ public class SimpleInputTextField : BaseView {
         self.getModel().title.asObservable()
             .subscribe(onNext:{ [weak self] (value) in
                 self?.titleField?.text = value
+            })
+        .disposed(by: bag)
+        
+        self.getModel().autoCorrection.asObservable()
+            .subscribe(onNext:{ [weak self] value in
+                self?.textField?.autocorrectionType = value ? UITextAutocorrectionType.default:UITextAutocorrectionType.no
             })
         .disposed(by: bag)
         

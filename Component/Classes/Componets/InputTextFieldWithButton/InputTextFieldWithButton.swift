@@ -31,6 +31,13 @@ public class InputTextFieldWithButton : SimpleInputTextField {
         super.setupView()
     }
     
+    override public func setupAccessibilityId(){
+        self.inlineButton?.accessibilityIdentifier =
+        "\(getModel().name!).\(self.inlineButton?.accessibilityIdentifier ?? "inlineButton")"
+        
+        super.setupAccessibilityId()
+    }
+    
     public override func getModel() -> InputTextFieldWithButtonModel{
         return self.viewModel as! InputTextFieldWithButtonModel
     }

@@ -46,6 +46,12 @@ public class SimpleButton : BaseView {
         return getModel().percentWidth.value
     }
     
+    public override func setupAccessibilityId() {
+        self.button?.accessibilityIdentifier =
+        "\(getModel().name!).\(self.button?.accessibilityIdentifier ?? "button")"
+        super.setupAccessibilityId()
+    }
+    
     public override func getHeight() -> CGFloat {
         return getModel().height.value
     }
