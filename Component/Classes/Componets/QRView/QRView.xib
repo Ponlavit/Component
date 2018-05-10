@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" insetsLayoutMarginsFromSafeArea="NO" id="iN0-l3-epB" customClass="QRView" customModule="Component" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="wUC-Va-x8s">
+                    <rect key="frame" x="90" y="90" width="20" height="20"/>
+                </activityIndicatorView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="icU-aO-h0b">
+                    <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="icU-aO-h0b" secondAttribute="height" multiplier="1:1" id="b5i-4e-nLb"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="icU-aO-h0b" secondAttribute="bottom" id="3RH-1L-Jup"/>
+                <constraint firstItem="wUC-Va-x8s" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="7cM-oE-MP8"/>
+                <constraint firstItem="icU-aO-h0b" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="T2c-lM-W60"/>
+                <constraint firstItem="icU-aO-h0b" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="bHg-2J-0Ne"/>
+                <constraint firstItem="icU-aO-h0b" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="dzZ-xm-k6p"/>
+                <constraint firstItem="wUC-Va-x8s" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="nc9-cH-Oxv"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="qrView" destination="icU-aO-h0b" id="rKh-Vf-2iz"/>
+            </connections>
+            <point key="canvasLocation" x="34" y="-15"/>
+        </view>
+    </objects>
+</document>

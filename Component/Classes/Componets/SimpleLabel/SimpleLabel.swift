@@ -8,7 +8,6 @@ public class SimpleLabelViewModel : ComponentViewModel {
     public var title = Variable<String>("")
     public var font = Variable<UIFont>(UIFont.systemFont(ofSize: UIFont.systemFontSize))
     public var fontColor = Variable<UIColor>(UIColor.black)
-    public var height = Variable<CGFloat>(30)
 
     public convenience init(_ name: String!) {
         self.init(withName: name,nibName: "SimpleLabel")

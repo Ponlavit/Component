@@ -12,7 +12,6 @@ public class SimpleButtonViewModel: ComponentViewModel {
     public var disableColor = Variable<UIColor>(UIColor.lightGray)
     public var enableColor = Variable<UIColor>(UIColor.red)
     public var font = Variable<UIFont>(UIFont.systemFont(ofSize: UIFont.systemFontSize))
-    public var height = Variable<CGFloat>(30)
     public var onPress: (() -> Void)?
 
     public convenience init(_ name: String!) {
