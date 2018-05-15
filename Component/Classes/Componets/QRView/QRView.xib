@@ -19,6 +19,12 @@
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="wUC-Va-x8s">
                     <rect key="frame" x="90" y="90" width="20" height="20"/>
                 </activityIndicatorView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Generating..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TfS-7X-Rru">
+                    <rect key="frame" x="0.0" y="115" width="200" height="14.333333333333343"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="icU-aO-h0b">
                     <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                     <constraints>
@@ -26,10 +32,14 @@
                     </constraints>
                 </imageView>
             </subviews>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
             <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
             <constraints>
+                <constraint firstItem="TfS-7X-Rru" firstAttribute="top" secondItem="wUC-Va-x8s" secondAttribute="bottom" constant="5" id="01g-d9-Qlq"/>
                 <constraint firstAttribute="bottom" secondItem="icU-aO-h0b" secondAttribute="bottom" id="3RH-1L-Jup"/>
+                <constraint firstAttribute="trailing" secondItem="TfS-7X-Rru" secondAttribute="trailing" id="5X6-eY-9JQ"/>
                 <constraint firstItem="wUC-Va-x8s" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="7cM-oE-MP8"/>
+                <constraint firstItem="TfS-7X-Rru" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="EBm-sE-Jtj"/>
                 <constraint firstItem="icU-aO-h0b" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="T2c-lM-W60"/>
                 <constraint firstItem="icU-aO-h0b" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="bHg-2J-0Ne"/>
                 <constraint firstItem="icU-aO-h0b" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="dzZ-xm-k6p"/>

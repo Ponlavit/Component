@@ -6,7 +6,7 @@ import RxSwift
 
 
 public class QRViewViewModel: ComponentViewModel {
-    public var code = Variable<String>("www.google.com")
+    public var code = Variable<String>("")
     public var isHideWhenChange : Bool = false
     public convenience init(_ name: String!) {
         self.init(withName: name,nibName: "QRView")
@@ -19,6 +19,7 @@ public class QRView : BaseView {
     let bag = DisposeBag()
     
     public override func setupView() {
+        self.layer.cornerRadius = 10
         super.setupView()
     }
 
@@ -48,13 +49,11 @@ public class QRView : BaseView {
         return image
     }
     
-    func generateQRCode(from string:String) -> UIImage? {
-        guard let imgView = self.qrView else { return nil }
+    func generateQRCode(from string:String,withSize:CGFloat) -> UIImage? {
         let data =  string.data(using: String.Encoding.isoLatin1)
         if let filter = CIFilter(name:"CIQRCodeGenerator") {
             filter.setValue(data, forKey: "inputMessage")
-            let size = max(imgView.frame.width, imgView.frame.height)
-            let transform = CGAffineTransform(scaleX: size, y: size)
+            let transform = CGAffineTransform(scaleX: withSize, y: withSize)
             if let output = filter.outputImage?.transformed(by: transform) {
                 return self.convert(cmage: output)
             }
@@ -66,15 +65,21 @@ public class QRView : BaseView {
         
         self.getModel().code.asObservable()
             .subscribe(onNext: { [unowned self] value in
-                self.qrView?.isHidden = self.getModel().isHideWhenChange
-                let qr = self.generateQRCode(from: value)
-                DispatchQueue.main.async {
-                    self.qrView?.image = qr
-                    self.qrView?.isHidden = false
+                guard let imgView = self.qrView else { return }
+                print("⚙️⚙️⚙️ Generate new QR \(value)")
+                let size = max(imgView.frame.width, imgView.frame.height)
+                DispatchQueue.global(qos: .userInteractive).async {
+                    DispatchQueue.main.sync {
+                        self.qrView?.isHidden = self.getModel().isHideWhenChange
+                    }
+                    let qr = self.generateQRCode(from: value,withSize: size)!
+                    DispatchQueue.main.sync {
+                        self.qrView?.image = qr
+                        self.qrView?.isHidden = false
+                    }
                 }
             })
         .disposed(by: bag)
-        
         super.bind()
     }
 }
