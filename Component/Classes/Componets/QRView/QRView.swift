@@ -41,21 +41,13 @@ public class QRView : BaseView {
         return self.getModel().height.value
     }
     
-    func convert(cmage:CIImage) -> UIImage
-    {
-        let context:CIContext = CIContext.init(options: nil)
-        let cgImage:CGImage = context.createCGImage(cmage, from: cmage.extent)!
-        let image:UIImage = UIImage.init(cgImage: cgImage)
-        return image
-    }
-    
     func generateQRCode(from string:String,withSize:CGFloat) -> UIImage? {
         let data =  string.data(using: String.Encoding.isoLatin1)
         if let filter = CIFilter(name:"CIQRCodeGenerator") {
             filter.setValue(data, forKey: "inputMessage")
             let transform = CGAffineTransform(scaleX: withSize, y: withSize)
             if let output = filter.outputImage?.transformed(by: transform) {
-                return self.convert(cmage: output)
+                return UIImage(ciImage: output)
             }
         }
         return nil
@@ -70,12 +62,15 @@ public class QRView : BaseView {
                 let size = max(imgView.frame.width, imgView.frame.height)
                 DispatchQueue.global(qos: .userInteractive).async {
                     DispatchQueue.main.sync {
-                        self.qrView?.isHidden = self.getModel().isHideWhenChange
+                        guard let imgView = self.qrView else { return }
+                        imgView.image = nil
+                        imgView.isHidden = self.getModel().isHideWhenChange
                     }
                     let qr = self.generateQRCode(from: value,withSize: size)!
                     DispatchQueue.main.sync {
-                        self.qrView?.image = qr
-                        self.qrView?.isHidden = false
+                        guard let imgView = self.qrView else { return }
+                        imgView.image = qr
+                        imgView.isHidden = false
                     }
                 }
             })
