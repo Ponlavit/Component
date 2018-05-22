@@ -12,10 +12,10 @@ import RxSwift
 open class ComponentViewModel : BaseViewModel {
     open var percentWidth = Variable<CGFloat>(100)
     open var height = Variable<CGFloat>(30)
-
-    override open func getNib() -> BaseView {
+    
+    override open func getNib() -> UINib {
         let bundle = Bundle(for: ComponentViewModel.self)
-        return UINib(nibName: self.getNibName()!, bundle: bundle).instantiate(withOwner: nil, options: nil)[0] as! BaseView
+        return UINib(nibName: self.getNibName()!, bundle: bundle)
     }
 }
 

@@ -23,7 +23,7 @@ public class InputTextFieldWithButtonModel : SimpleInputTextFieldModel {
 }
 
 public class InputTextFieldWithButton : SimpleInputTextField {
-    @IBOutlet weak var inlineButton: UIButton?
+    @IBOutlet public weak var inlineButton: UIButton?
     
     public override func setupView() {
         self.inlineButton?.setTitle(self.getModel().disbleTitle.value, for: .disabled)

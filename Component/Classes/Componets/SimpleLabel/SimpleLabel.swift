@@ -15,7 +15,7 @@ public class SimpleLabelViewModel : ComponentViewModel {
 }
 
 public class SimpleLabel : BaseView {
-    @IBOutlet weak var titleField : UILabel?
+    @IBOutlet public weak var titleField : UILabel?
     
     var bag = DisposeBag()
     

@@ -14,7 +14,7 @@ public class QRViewViewModel: ComponentViewModel {
 }
 
 public class QRView : BaseView {
-    @IBOutlet weak var qrView : UIImageView?
+    @IBOutlet public weak var qrView : UIImageView?
     
     let bag = DisposeBag()
     

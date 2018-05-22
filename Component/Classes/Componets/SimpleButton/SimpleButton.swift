@@ -24,7 +24,7 @@ public class SimpleButtonViewModel: ComponentViewModel {
 }
 
 public class SimpleButton : BaseView {
-    @IBOutlet weak var button : UIButton?
+    @IBOutlet public weak var button : UIButton?
     
     let bag = DisposeBag()
     

@@ -27,8 +27,8 @@ public class SimpleInputTextFieldModel : ComponentViewModel {
 }
 
 public class SimpleInputTextField : BaseView {
-    @IBOutlet weak var textField : UITextField?
-    @IBOutlet weak var titleField : UILabel?
+    @IBOutlet public weak var textField : UITextField?
+    @IBOutlet public weak var titleField : UILabel?
     
     var bag = DisposeBag()
     
