@@ -8,6 +8,7 @@ import RxSwift
 public class QRViewViewModel: ComponentViewModel {
     public var code = Variable<String>("")
     public var isHideWhenChange : Bool = false
+    public var isUsingApi : Bool = false
     public convenience init(_ name: String!) {
         self.init(withName: name,nibName: "QRView")
     }
@@ -55,14 +56,32 @@ public class QRView : BaseView {
     
     public override func bind() {
         
-        self.getModel().code.asDriver()
-            .drive(onNext: { [unowned self] value in
+        self.getModel().code.asObservable()
+            .subscribe(onNext: { [unowned self] value in
                 guard let imgView = self.qrView else { return }
                 print("⚙️⚙️⚙️ Generate new QR \(value)")
                 let size = max(imgView.frame.width, imgView.frame.height)
-                let qr = self.generateQRCode(from: value,withSize: size)!
-                DispatchQueue.main.async {
-                    imgView.image = qr
+                if(self.getModel().isUsingApi){
+                    DispatchQueue.main.async {
+                        do {
+                            let escapedString = value.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+                            let urlString = "https://api.qrserver.com/v1/create-qr-code/?size=\(size)x\(size)&data=\(escapedString)"
+                            let endPoint = URL(string:urlString)!
+                            let imageData = try Data(contentsOf:endPoint)
+                            
+                            imgView.image = UIImage(
+                                data: imageData)
+                        }
+                        catch {
+                            
+                        }
+                    }
+                }
+                else {
+                    let qr = self.generateQRCode(from: value,withSize: size)!
+                    DispatchQueue.main.async {
+                        imgView.image = qr
+                    }
                 }
                 
             })
