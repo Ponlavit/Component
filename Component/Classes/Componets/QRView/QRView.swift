@@ -55,24 +55,16 @@ public class QRView : BaseView {
     
     public override func bind() {
         
-        self.getModel().code.asObservable()
-            .subscribe(onNext: { [unowned self] value in
+        self.getModel().code.asDriver()
+            .drive(onNext: { [unowned self] value in
                 guard let imgView = self.qrView else { return }
                 print("⚙️⚙️⚙️ Generate new QR \(value)")
                 let size = max(imgView.frame.width, imgView.frame.height)
-                DispatchQueue.global(qos: .userInteractive).async { [unowned self] in
-                    DispatchQueue.main.sync { [unowned self] in
-                        guard let imgView = self.qrView else { return }
-                        imgView.image = nil
-                        imgView.isHidden = self.getModel().isHideWhenChange
-                    }
-                    let qr = self.generateQRCode(from: value,withSize: size)!
-                    DispatchQueue.main.sync { [unowned self] in
-                        guard let imgView = self.qrView else { return }
-                        imgView.image = qr
-                        imgView.isHidden = false
-                    }
+                let qr = self.generateQRCode(from: value,withSize: size)!
+                DispatchQueue.main.async {
+                    imgView.image = qr
                 }
+                
             })
         .disposed(by: bag)
         super.bind()
