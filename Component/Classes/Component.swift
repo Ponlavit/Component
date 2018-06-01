@@ -50,6 +50,10 @@ public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSo
         return varDs.value
     }
     
+    public func reload(){
+        self.baseTableView?.tableView?.reloadData()
+    }
+    
     public var baseTableView : BaseTableView?
     public convenience init(withDataSource: [BaseTableViewCellModel]) {
         self.init()
@@ -111,15 +115,19 @@ public class BaseTableViewModel : ComponentViewModel {
     public var adapter : BaseTableAdapter!
     public private(set) var tableView : UITableView!
     
-    public convenience init(_ name:String!, style:UITableViewStyle? = UITableViewStyle.plain){
+    public convenience init(_ name:String!, style:UITableViewStyle? = UITableViewStyle.plain,
+                            onRefresh:((_ sender:UIRefreshControl)->Swift.Void)? = nil){
         self.init(name, withAdapter: BaseTableAdapter(),style:style)
     }
     
-    public convenience init(_ name:String!, withAdapter adapter:BaseTableAdapter,style:UITableViewStyle? = UITableViewStyle.plain) {
+    public convenience init(_ name:String!,
+                            withAdapter adapter:BaseTableAdapter,
+                            style:UITableViewStyle? = UITableViewStyle.plain,
+                            onRefresh:((_ sender:UIRefreshControl)->Swift.Void)? = nil){
         self.init(withName: name, nibName: "")
         self.adapter = adapter
         self.adapter.baseTableView = self.getBaseView()
-        self.tableView = self.getBaseView().initTable(style: style!)
+        self.tableView = self.getBaseView().initTable(style: style!,onRefresh:onRefresh)
         self.tableView.delegate = adapter
         self.tableView.dataSource = adapter
         self.registerCellBundle()
@@ -145,16 +153,44 @@ public class BaseTableViewModel : ComponentViewModel {
 
 public class BaseTableView : BaseView {
     public private(set) var tableView : UITableView?
+    public var onRefresh : ((_ sender:UIRefreshControl) -> Swift.Void)?
     public override func setupView() {
         super.setupView()
         guard let tv = self.tableView else { return }
         tv.removeFromSuperview()
+        tv.translatesAutoresizingMaskIntoConstraints = false
         tv.frame = self.bounds
+        tv.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
         self.addSubview(tv)
     }
     
-    public func initTable(style:UITableViewStyle) -> UITableView!{
+    @objc func onTriggerRefresh(sender:UIRefreshControl){
+        if(self.onRefresh != nil) {
+            self.onRefresh!(sender)
+            defer {
+                if #available(iOS 10.0, *) {
+                    self.tableView?.refreshControl?.beginRefreshing()
+                }
+            }
+        }
+        
+    }
+    
+    public func initTable(style:UITableViewStyle,
+                          onRefresh:((_ sender:UIRefreshControl)->Swift.Void)? = nil) -> UITableView!{
         self.tableView = UITableView(frame: CGRect.zero, style: style)
+        self.onRefresh = onRefresh
+        if #available(iOS 10.0, *) {
+            if(onRefresh != nil){
+                let refreshControl = UIRefreshControl()
+                refreshControl.addTarget(self,
+                                         action: #selector(self.onTriggerRefresh(sender:)),
+                                         for: UIControlEvents.valueChanged)
+                
+                self.tableView?.refreshControl = refreshControl
+            }
+        }
         return self.tableView
     }
     
