@@ -56,7 +56,7 @@ public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSo
         self.varDs.value = withDataSource
         varDs.asObservable()
             .subscribe(onNext: { [unowned self] value in
-                self.baseTableView?.tableView.reloadData()
+                self.baseTableView?.tableView?.reloadData()
             }).disposed(by: self.bag)
     }
     
@@ -111,15 +111,15 @@ public class BaseTableViewModel : ComponentViewModel {
     public var adapter : BaseTableAdapter!
     public private(set) var tableView : UITableView!
     
-    public convenience init(_ name:String!){
-        self.init(name, withAdapter: BaseTableAdapter())
+    public convenience init(_ name:String!, style:UITableViewStyle? = UITableViewStyle.plain){
+        self.init(name, withAdapter: BaseTableAdapter(),style:style)
     }
     
-    public convenience init(_ name:String!, withAdapter adapter:BaseTableAdapter) {
+    public convenience init(_ name:String!, withAdapter adapter:BaseTableAdapter,style:UITableViewStyle? = UITableViewStyle.plain) {
         self.init(withName: name, nibName: "")
         self.adapter = adapter
         self.adapter.baseTableView = self.getBaseView()
-        self.tableView = self.getBaseView().tableView
+        self.tableView = self.getBaseView().initTable(style: style!)
         self.tableView.delegate = adapter
         self.tableView.dataSource = adapter
         self.registerCellBundle()
@@ -144,12 +144,18 @@ public class BaseTableViewModel : ComponentViewModel {
 }
 
 public class BaseTableView : BaseView {
-    public let tableView : UITableView = UITableView()
+    public private(set) var tableView : UITableView?
     public override func setupView() {
         super.setupView()
-        self.tableView.removeFromSuperview()
-        self.tableView.frame = self.bounds
-        self.addSubview(tableView)
+        guard let tv = self.tableView else { return }
+        tv.removeFromSuperview()
+        tv.frame = self.bounds
+        self.addSubview(tv)
+    }
+    
+    public func initTable(style:UITableViewStyle) -> UITableView!{
+        self.tableView = UITableView(frame: CGRect.zero, style: style)
+        return self.tableView
     }
     
     public override func getHeight() -> CGFloat {
@@ -163,7 +169,7 @@ public class BaseTableView : BaseView {
 
 
 open class BaseTableViewCell : UITableViewCell, BaseViewLC {
-    public var viewModel:BaseViewModel!
+    public var viewModel : BaseViewModel!
     public var tabGesture : UITapGestureRecognizer?
 
     open func setupView() {
@@ -175,11 +181,11 @@ open class BaseTableViewCell : UITableViewCell, BaseViewLC {
     }
     
     open func bind() {
-        
+        // do some rx to change sepecific value
     }
     
     @objc func didTap(){
-        print("didTap")
+        print("🎯 did tap on cell \(self.getModel().name)")
         if let action = self.getModel().didSelectedRow {
             action(self.getModel())
         }
