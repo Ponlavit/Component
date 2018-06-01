@@ -22,10 +22,11 @@ open class ComponentViewModel : BaseViewModel {
 open class BaseTableViewCellModel : ComponentViewModel {
     public var cellView : BaseTableViewCell?
     
-    public var cellSelectionStyle : UITableViewCellSelectionStyle!
-        = UITableViewCellSelectionStyle.default
+    open func getCellSelectionStyle() -> UITableViewCellSelectionStyle {
+        return UITableViewCellSelectionStyle.default
+    }
     
-    public var didSelectedRow : ((_ indexPath:IndexPath, _ model:BaseTableViewCellModel) -> Swift.Void)?
+    public var didSelectedRow : ((_ model:BaseTableViewCellModel) -> Swift.Void)?
     public func getCellView() -> BaseTableViewCell {
         var cell: BaseTableViewCell?
         if(self.cellView == nil) {
@@ -35,6 +36,7 @@ open class BaseTableViewCellModel : ComponentViewModel {
         else {
             return self.cellView!
         }
+
         cell?.viewModel = self
         return cell!
     }
@@ -90,7 +92,7 @@ public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSo
             cell = model.getCellView()
             cell?.bind()
         }
-        cell?.selectionStyle = model.cellSelectionStyle
+        cell?.selectionStyle = model.getCellSelectionStyle()
         cell?.viewModel = model
         cell?.setupView()
         return cell!
@@ -100,7 +102,7 @@ public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSo
         let row = indexPath.row
         let model = dataSource[row]
         if(model.didSelectedRow != nil) {
-            model.didSelectedRow!(indexPath,model)
+            model.didSelectedRow!(model)
         }
     }
 }
@@ -156,5 +158,57 @@ public class BaseTableView : BaseView {
     
     public override func getModel() -> BaseTableViewModel{
         return self.viewModel as! BaseTableViewModel
+    }
+}
+
+
+open class BaseTableViewCell : UITableViewCell, BaseViewLC {
+    public var viewModel:BaseViewModel!
+    public var tabGesture : UITapGestureRecognizer?
+
+    open func setupView() {
+        if(self.getModel().onSetupView != nil) {
+            self.getModel().onSetupView!(self)
+        }
+        tabGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
+        self.addGestureRecognizer(self.tabGesture!)
+    }
+    
+    open func bind() {
+        
+    }
+    
+    @objc func didTap(){
+        print("didTap")
+        if let action = self.getModel().didSelectedRow {
+            action(self.getModel())
+        }
+    }
+    
+    public func registerOn(table:UITableView){
+        guard let name = self.getModel().getNibName() else {
+            fatalError("Nibname should not be nil")
+        }
+        guard name == self.reuseIdentifier else {
+            fatalError("Nibname and reuse id should be the same")
+        }
+        print("Register Cell \(name)")
+        table.register(self.getModel().getNib(),
+                       forCellReuseIdentifier: name)
+    }
+    
+    open func getWHRatio() -> CGFloat {
+        return 1
+    }
+    
+    public func getHeighByRatio(_ width:CGFloat) -> CGFloat {
+        return self.getWHRatio() * width
+    }
+    
+    open func setupAccessibilityId() {
+        self.accessibilityIdentifier = getModel().name
+    }
+    open func getModel() -> BaseTableViewCellModel {
+        return self.viewModel as! BaseTableViewCellModel
     }
 }
