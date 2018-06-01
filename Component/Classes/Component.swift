@@ -70,7 +70,6 @@ public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSo
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("rendering \(self.dataSource.count) row")
         return self.dataSource.count
     }
     
@@ -84,13 +83,13 @@ public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSo
     public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let row = indexPath.row
         let model = dataSource[row]
-        print("will render cell at \(row) with model \(model)")
+        print("⚓️ will render cell at \(row) with model \(model)")
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
         let model = dataSource[row]
-        print("rendering cell at \(row) with model \(model)")
+        print(" 🌈 rendering cell at \(row) with model \(model)")
         var cell : BaseTableViewCell? = tableView.dequeueReusableCell(withIdentifier: model.getNibName()!) as! BaseTableViewCell?
         if(cell == nil){
             cell = model.getCellView()
