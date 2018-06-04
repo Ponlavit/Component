@@ -18,7 +18,7 @@ public class SimpleButtonViewModel: ComponentViewModel {
         self.init(withName: name,nibName: "SimpleButton")
     }
     
-    public func listen(onPress:(()->(Void))!){
+    public func listen(onPress:@escaping(()->(Void))){
         self.onPress = onPress
     }
 }

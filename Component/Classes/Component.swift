@@ -20,7 +20,7 @@ open class ComponentViewModel : BaseViewModel {
 }
 
 open class BaseTableViewCellModel : ComponentViewModel {
-    public var cellView : BaseTableViewCell?
+    public weak var cellView : BaseTableViewCell?
     
     open func getCellSelectionStyle() -> UITableViewCellSelectionStyle {
         return UITableViewCellSelectionStyle.default
@@ -44,29 +44,31 @@ open class BaseTableViewCellModel : ComponentViewModel {
 
 
 public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSource{
-    let bag = DisposeBag()
-    public let varDs :Variable<[BaseTableViewCellModel]> = Variable([])
+
+    public private(set) var varDs :Variable<[BaseTableViewCellModel]>?
+    public var baseTableView : BaseTableView?
     public var dataSource : [BaseTableViewCellModel] {
-        return varDs.value
+        return varDs?.value ?? []
     }
-    
+
     public func reload(){
         self.baseTableView?.tableView?.reloadData()
     }
     
-    public var baseTableView : BaseTableView?
-    public convenience init(withDataSource: [BaseTableViewCellModel]) {
+    public convenience init(withDataSource: [BaseTableViewCellModel], disposeBag:DisposeBag) {
         self.init()
-        self.varDs.value = withDataSource
-        varDs.asObservable()
+        self.varDs = Variable([])
+        self.varDs?.value = withDataSource
+        self.varDs?.asObservable()
             .subscribe(onNext: { [unowned self] value in
-                self.baseTableView?.tableView?.reloadData()
-            }).disposed(by: self.bag)
+                self.reload()
+            })
+        .disposed(by:disposeBag)
     }
     
     public func replaceSource(withNewSource newSource:[BaseTableViewCellModel]){
-        self.varDs.value.removeAll()
-        self.varDs.value = newSource
+        self.varDs?.value.removeAll()
+        self.varDs?.value = newSource
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -111,12 +113,14 @@ public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSo
 }
 
 public class BaseTableViewModel : ComponentViewModel {
-    public var adapter : BaseTableAdapter!
-    public private(set) var tableView : UITableView!
-    
+    public weak var adapter : BaseTableAdapter!
     public convenience init(_ name:String!, style:UITableViewStyle? = UITableViewStyle.plain,
                             onRefresh:((_ sender:UIRefreshControl)->Swift.Void)? = nil){
         self.init(name, withAdapter: BaseTableAdapter(),style:style)
+    }
+    
+    public func getTableView() -> UITableView? {
+        return self.adapter.baseTableView?.tableView
     }
     
     public convenience init(_ name:String!,
@@ -126,11 +130,8 @@ public class BaseTableViewModel : ComponentViewModel {
         self.init(withName: name, nibName: "")
         self.adapter = adapter
         self.adapter.baseTableView = self.getBaseView()
-        self.tableView = self.getBaseView().initTable(style: style!,onRefresh:onRefresh)
-        self.tableView.delegate = adapter
-        self.tableView.dataSource = adapter
-        self.registerCellBundle()
-        self.tableView.reloadData()
+        self.getBaseView().initTable(withAdapter:adapter, style: style!,onRefresh:onRefresh)
+        self.adapter.baseTableView?.reloadData()
     }
     
     private func getBaseView() -> BaseTableView{
@@ -143,25 +144,17 @@ public class BaseTableViewModel : ComponentViewModel {
         return vi as! T
     }
     
-    func registerCellBundle(){
-        for model:BaseTableViewCellModel in self.adapter.dataSource {
-            model.getCellView().registerOn(table: self.tableView)
-        }
-    }
 }
 
 public class BaseTableView : BaseView {
-    public private(set) var tableView : UITableView?
+    public weak private(set) var tableView : UITableView?
     public var onRefresh : ((_ sender:UIRefreshControl) -> Swift.Void)?
     public override func setupView() {
         super.setupView()
-        guard let tv = self.tableView else { return }
-        tv.removeFromSuperview()
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.frame = self.bounds
-        tv.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-        self.addSubview(tv)
+    }
+    
+    public func reloadData(){
+        self.tableView?.reloadData()
     }
     
     @objc func onTriggerRefresh(sender:UIRefreshControl){
@@ -176,9 +169,19 @@ public class BaseTableView : BaseView {
         
     }
     
-    public func initTable(style:UITableViewStyle,
+    @discardableResult
+    public func initTable(withAdapter:BaseTableAdapter, style:UITableViewStyle,
                           onRefresh:((_ sender:UIRefreshControl)->Swift.Void)? = nil) -> UITableView!{
-        self.tableView = UITableView(frame: CGRect.zero, style: style)
+        let tableView = UITableView(frame: CGRect.zero, style: style)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.frame = self.bounds
+        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        tableView.delegate = withAdapter
+        tableView.dataSource = withAdapter
+        withAdapter.baseTableView = self
+        for model:BaseTableViewCellModel in withAdapter.dataSource {
+            model.getCellView().registerOn(table: tableView)
+        }
         self.onRefresh = onRefresh
         if #available(iOS 10.0, *) {
             if(onRefresh != nil){
@@ -187,10 +190,12 @@ public class BaseTableView : BaseView {
                                          action: #selector(self.onTriggerRefresh(sender:)),
                                          for: UIControlEvents.valueChanged)
                 
-                self.tableView?.refreshControl = refreshControl
+                tableView.refreshControl = refreshControl
             }
         }
-        return self.tableView
+        self.addSubview(tableView)
+        self.tableView = tableView
+        return tableView
     }
     
     public override func getHeight() -> CGFloat {
@@ -204,7 +209,7 @@ public class BaseTableView : BaseView {
 
 
 open class BaseTableViewCell : UITableViewCell, BaseViewLC {
-    public var viewModel : BaseViewModel!
+    public weak var viewModel : BaseViewModel!
     public var tabGesture : UITapGestureRecognizer?
 
     open func setupView() {

@@ -19,7 +19,7 @@ public class SimpleInputTextFieldModel : ComponentViewModel {
         self.init(withName: name,nibName: "SimpleInputTextField")
     }
     
-    public func setOnInputChangeListener(reciever: ((String)->Void)?, disposedBy: DisposeBag){
+    public func setOnInputChangeListener(reciever: @escaping ((String)->Void), disposedBy: DisposeBag){
         self.input.asObservable()
             .subscribe(onNext: reciever)
             .disposed(by: disposedBy)
