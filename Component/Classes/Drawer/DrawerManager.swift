@@ -9,7 +9,7 @@ import Foundation
 import Base
 import KWDrawerController
 
-public class DrawerManager {
+public class Drawer {
     private static let drawerController = DrawerController()
     public static func build(_ target:BaseScreen,
                       withLeftDrawer leftDrawer:BaseScreen? = nil,
