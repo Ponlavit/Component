@@ -5,7 +5,6 @@
 # Any lines starting with a # are optional, but their use is encouraged
 # To learn more about a Podspec see https://guides.cocoapods.org/syntax/podspec.html
 #
-
 Pod::Spec.new do |s|
     s.name             = 'Component'
     s.version          = '0.1.1'
@@ -24,7 +23,6 @@ Pod::Spec.new do |s|
     s.license          = { :type => 'MIT', :file => 'LICENSE' }
     s.author           = { 'Ponlavit' => 'ponlavit.lar@gmail.com' }
     s.source           = { :git => 'https://github.com/Ponlavit/Component.git', :tag => s.version.to_s, :submodules => true }
-    s.source           = { :git => 'https://github.com/Ponlavit/KWDrawerController.git', :tag => s.version.to_s, :submodules => true }
 
     # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
     
