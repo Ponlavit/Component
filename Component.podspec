@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'Component'
-    s.version          = '0.1.0'
+    s.version          = '0.1.1'
     s.summary          = 'Share view component included VM and V'
     
     # This description is used to generate tags and improve search results.
@@ -24,10 +24,13 @@ Pod::Spec.new do |s|
     s.license          = { :type => 'MIT', :file => 'LICENSE' }
     s.author           = { 'Ponlavit' => 'ponlavit.lar@gmail.com' }
     s.source           = { :git => 'https://github.com/Ponlavit/Component.git', :tag => s.version.to_s, :submodules => true }
+    s.source           = { :git => 'https://github.com/Ponlavit/KWDrawerController.git', :tag => s.version.to_s, :submodules => true }
+
     # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
     
-    s.ios.deployment_target = '9.0'
-   
+    s.ios.deployment_target = '10.0'
+    s.default_subspecs = 'Component'
+
     s.subspec 'Component' do |component|
         component.source_files = 'Component/Classes/Componets/**/*'
         component.dependency 'RxSwift',    '~> 4.0'
@@ -38,7 +41,7 @@ Pod::Spec.new do |s|
     end
     
     s.subspec 'Drawer' do |drawer|
-        drawer.source_files = 'Component/Classes/Drawer/**/*/'
+        drawer.source_files = 'Component/Classes/Drawer/*.swift'
         drawer.dependency 'KWDrawerController'
         drawer.dependency 'KWDrawerController/RxSwift'
         drawer.resource_bundles = {
