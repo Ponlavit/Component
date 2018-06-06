@@ -10,18 +10,15 @@ import Base
 import RxSwift
 import RxCocoa
 
-public class BannerSliderCellModel : BaseTableViewCellModel {
+public class BannerSliderCellModel : BaseCollectionViewCellModel {
     
     public var image : BehaviorRelay<UIImage>!
     public var action : String?
     public var onPressBanner : ((_ banner:BannerSliderCellModel) -> Swift.Void)?
+
     
-    public override func getCellSelectionStyle() -> UITableViewCellSelectionStyle {
-        return UITableViewCellSelectionStyle.none
-    }
-    
-    public convenience init() {
-        self.init(withName: "BannerSliderCell", nibName: "BannerSliderCell")
+    public convenience init(_ name:String!) {
+        self.init(withName: name, nibName: "BannerSliderCell")
     }
 }
 
@@ -38,6 +35,7 @@ public class BannerSliderCell : BaseCollectionViewCell {
                 self.imvProductImage.image = image
             })
         .disposed(by: self.bag)
+        super.setupView()
     }
     
     public override func getModel() -> BannerSliderCellModel {

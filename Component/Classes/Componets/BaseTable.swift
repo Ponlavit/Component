@@ -155,7 +155,6 @@ public class BaseTableView : BaseView {
                 }
             }
         }
-        
     }
     
     @discardableResult
