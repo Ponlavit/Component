@@ -52,7 +52,7 @@ public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSo
             .subscribe(onNext: { [unowned self] value in
                 self.reload()
             })
-            .disposed(by:disposeBag)
+        .disposed(by:disposeBag)
     }
     
     public func replaceSource(withNewSource newSource:[BaseTableViewCellModel]){
@@ -213,7 +213,7 @@ open class BaseTableViewCell : UITableViewCell, BaseViewLC {
     }
     
     @objc func didTap(){
-        print("🎯 did tap on cell \(self.getModel().name)")
+        print("🎯 did tap table on cell \(self.getModel().name)")
         if let action = self.getModel().didSelectedRow {
             action(self.getModel())
         }

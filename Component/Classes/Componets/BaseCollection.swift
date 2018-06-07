@@ -22,7 +22,7 @@ open class BaseCollectionViewCell : UICollectionViewCell, BaseViewLC {
     }
     
     @objc func didTap(){
-        print("🎯 did tap on cell \(self.getModel().name)")
+        print("🎯 did tap collection on cell \(self.getModel().name)")
         if let action = self.getModel().didSelectedRow {
             action(self.getModel())
         }
@@ -86,7 +86,9 @@ open class BaseCollectionViewCellModel : ComponentViewModel {
 public class BaseCollectionViewModel : ComponentViewModel {
     public weak var adapter : BaseCollectionAdapter!
     public var isPageEnable : Bool! = false
-    public func getTableView() -> UICollectionView? {
+    public var onRegisterCell : ((_ collectionView:UICollectionView)->Swift.Void)?
+
+    public func getCollectionView() -> UICollectionView? {
         return self.adapter.baseCollectionView?.collectionView
     }
     
@@ -117,10 +119,25 @@ public class BaseCollectionViewModel : ComponentViewModel {
 public class BaseCollectionView : BaseView {
     public weak private(set) var collectionView : UICollectionView?
     public var onRefresh : ((_ sender:UIRefreshControl) -> Swift.Void)?
+    public var onRegisterCell : ((_ collectionView:UICollectionView)->Swift.Void)?
     public override func setupView() {
+        self.collectionView?.delegate = self.getModel().adapter
+        self.collectionView?.dataSource = self.getModel().adapter
+        self.onRegisterCell = self.getModel().onRegisterCell ?? self.registerCell
+        self.onRegisterCell!(self.collectionView!)
+
+        self.collectionView?.frame = self.bounds
+        self.collectionView?.isPagingEnabled = self.getModel().isPageEnable
+        self.getModel().adapter.baseCollectionView = self
         super.setupView()
     }
 
+    func registerCell(collectionView:UICollectionView){
+        for model:BaseCollectionViewCellModel in self.getModel().adapter.dataSource {
+            model.getCellView().registerOn(collectionView: collectionView)
+        }
+    }
+    
     public func reloadData(){
         self.collectionView?.reloadData()
     }
@@ -142,17 +159,8 @@ public class BaseCollectionView : BaseView {
                           layoutFlow:UICollectionViewFlowLayout,
                           onRefresh:((_ sender:UIRefreshControl)->Swift.Void)? = nil) -> UICollectionView!{
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layoutFlow)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.frame = self.bounds
-        collectionView.isPagingEnabled = self.getModel().isPageEnable
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.delegate = withAdapter
-        collectionView.dataSource = withAdapter
-        withAdapter.baseCollectionView = self
-        for model:BaseCollectionViewCellModel in withAdapter.dataSource {
-            model.getCellView().registerOn(collectionView: collectionView)
-        }
-        self.onRefresh = onRefresh
+        
+        self.addSubview(collectionView)
         if #available(iOS 10.0, *) {
             if(onRefresh != nil){
                 let refreshControl = UIRefreshControl()
@@ -160,11 +168,18 @@ public class BaseCollectionView : BaseView {
                                          action: #selector(self.onTriggerRefresh(sender:)),
                                          for: UIControlEvents.valueChanged)
                 
-                collectionView.refreshControl = refreshControl
+                self.collectionView?.refreshControl = refreshControl
             }
         }
-        self.addSubview(collectionView)
+        
+        self.onRefresh = onRefresh
         self.collectionView = collectionView
+        self.collectionView?.translatesAutoresizingMaskIntoConstraints = false
+        self.collectionView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.collectionView?.backgroundColor = .clear
+        self.collectionView?.showsVerticalScrollIndicator = false
+        self.collectionView?.showsHorizontalScrollIndicator = false
+        
         return collectionView
     }
     

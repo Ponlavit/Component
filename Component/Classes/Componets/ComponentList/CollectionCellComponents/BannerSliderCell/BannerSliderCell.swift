@@ -19,6 +19,7 @@ public class BannerSliderCellModel : BaseCollectionViewCellModel {
     
     public convenience init(_ name:String!) {
         self.init(withName: name, nibName: "BannerSliderCell")
+        self.image = BehaviorRelay(value: UIImage())
     }
 }
 
@@ -29,13 +30,17 @@ public class BannerSliderCell : BaseCollectionViewCell {
     var bag = DisposeBag()
 
     override public func setupView() {
+        self.bind()
+        super.setupView()
+    }
+    
+    override public func bind() {
         self.getModel().image?.asObservable()
             .subscribe(onNext: { (image) in
                 print("did get image and try to set")
                 self.imvProductImage.image = image
             })
         .disposed(by: self.bag)
-        super.setupView()
     }
     
     public override func getModel() -> BannerSliderCellModel {
