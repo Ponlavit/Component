@@ -62,7 +62,7 @@ public class TableWithCollectionCell : BaseTableViewCell {
     }
     
     public override func getWHRatio() -> CGFloat {
-        return self.getModel().height.value / self.getModel().getCellView().frame.size.width
+        return self.getModel().height.value / (UIApplication.shared.windows.first?.frame.size.width)! 
     }
     
     override public func bind() {
