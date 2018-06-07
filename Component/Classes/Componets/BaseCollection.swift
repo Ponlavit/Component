@@ -210,9 +210,16 @@ public class BaseCollectionAdapter : NSObject, UICollectionViewDelegate, UIColle
         self.varDs?.value = withDataSource
         self.varDs?.asObservable()
             .subscribe(onNext: { [unowned self] value in
+                self.baseCollectionView?.getModel()
+                    .onRegisterCell!((self.baseCollectionView?.collectionView)!)
                 self.reload()
             })
             .disposed(by:disposeBag)
+    }
+    
+    public func replaceSource(withNewSource newSource:[BaseCollectionViewCellModel]){
+        self.varDs?.value.removeAll()
+        self.varDs?.value = newSource
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -231,6 +238,8 @@ public class BaseCollectionAdapter : NSObject, UICollectionViewDelegate, UIColle
             cell?.bind()
         }
         cell?.viewModel = model
+        cell?.setupAccessibilityId()
+        cell?.accessibilityIdentifier?.append(":\(row)")
         cell?.setupView()
         return cell!
     }

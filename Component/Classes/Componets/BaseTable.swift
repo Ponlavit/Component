@@ -88,6 +88,8 @@ public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSo
         }
         cell?.selectionStyle = model.getCellSelectionStyle()
         cell?.viewModel = model
+        cell?.setupAccessibilityId()
+        cell?.accessibilityIdentifier?.append(":\(row)")
         cell?.setupView()
         return cell!
     }
@@ -240,7 +242,7 @@ open class BaseTableViewCell : UITableViewCell, BaseViewLC {
     }
     
     open func setupAccessibilityId() {
-        self.accessibilityIdentifier = getModel().name
+        self.accessibilityIdentifier = "\(self.getModel().name)"
     }
     
     open func getModel() -> BaseTableViewCellModel {
