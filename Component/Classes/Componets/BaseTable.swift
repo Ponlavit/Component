@@ -90,6 +90,7 @@ public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSo
         cell?.viewModel = model
         cell?.setupAccessibilityId()
         cell?.accessibilityIdentifier?.append(":\(row)")
+        cell?.frame.size.width = tableView.frame.size.width
         cell?.setupView()
         return cell!
     }

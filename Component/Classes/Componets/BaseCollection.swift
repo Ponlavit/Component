@@ -48,11 +48,6 @@ open class BaseCollectionViewCell : UICollectionViewCell, BaseViewLC {
         return 1
     }
     
-    public func getHeighByRatio(_ width:CGFloat) -> CGFloat {
-        return self.getWHRatio() * width
-    }
-    
-    
     open func setupAccessibilityId() {
         self.accessibilityIdentifier = getModel().name
     }
@@ -125,8 +120,11 @@ public class BaseCollectionView : BaseView {
         self.collectionView?.dataSource = self.getModel().adapter
         self.onRegisterCell = self.getModel().onRegisterCell ?? self.registerCell
         self.onRegisterCell!(self.collectionView!)
-
+        
+        self.collectionView?.translatesAutoresizingMaskIntoConstraints = false
         self.collectionView?.frame = self.bounds
+        self.collectionView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
         self.collectionView?.isPagingEnabled = self.getModel().isPageEnable
         self.getModel().adapter.baseCollectionView = self
         super.setupView()

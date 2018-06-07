@@ -55,7 +55,7 @@ public class TableWithCollectionCell : BaseTableViewCell {
         self.addSubview((self.collectionViewModel?.getView())!)
         self.collectionViewModel?.getCollectionView()?.setCollectionViewLayout(self.getModel().flow, animated: false)
         self.collectionViewModel?.getCollectionView()?.setContentOffset(CGPoint.zero, animated: false)
-
+        
         self.collectionViewModel?.getView().setupView()
         self.collectionViewModel?.getView().reloadData()
         super.setupView()
