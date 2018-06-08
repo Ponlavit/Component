@@ -8,10 +8,12 @@
 import Foundation
 import Base
 
-public class TableTitleCellViewModel : BaseTableViewCellModel {
-
+open class TableTitleCellViewModel : BaseTableViewCellModel {
+    
     public var titleText : String!
     public var extraText : String?
+    public var titleTextFont : UIFont?
+    public var extraTextFont : UIFont?
     
     public convenience init(_ name:String) {
         self.init(withName: name,
@@ -23,34 +25,39 @@ public class TableTitleCellViewModel : BaseTableViewCellModel {
         return UINib(nibName: self.getNibName()!, bundle: bundle)
     }
     
-    public override func getCellSelectionStyle() -> UITableViewCellSelectionStyle {
+    open override func getCellSelectionStyle() -> UITableViewCellSelectionStyle {
         return UITableViewCellSelectionStyle.none
     }
 }
 
-public class TableTitleCell : BaseTableViewCell {
+open class TableTitleCell : BaseTableViewCell {
     
-    @IBOutlet weak var lbAddition: UILabel!
-    @IBOutlet weak var lbTitle: UILabel!
+    @IBOutlet public weak var lbAddition: UILabel!
+    @IBOutlet public weak var lbTitle: UILabel!
+    
     @objc func didTabExtra(_ sender: UITapGestureRecognizer) {
         
     }
     
-    override public func setupView() {
+    override open func setupView() {
         self.lbTitle.text = self.getModel().titleText
         self.lbAddition.text = self.getModel().extraText
+        
+        self.lbTitle.font = self.getModel().titleTextFont
+        self.lbAddition.font = self.getModel().extraTextFont
+        
         super.setupView()
     }
     
-    public override func getWHRatio() -> CGFloat {
+    open override func getWHRatio() -> CGFloat {
         return self.getModel().height.value / self.getModel().getCellView().frame.size.width
     }
     
-    override public func bind() {
+    override open func bind() {
         super.bind()
     }
     
-    public override func getModel() -> TableTitleCellViewModel {
+    open override func getModel() -> TableTitleCellViewModel {
         return self.viewModel as! TableTitleCellViewModel
     }
 }
