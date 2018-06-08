@@ -74,7 +74,6 @@ public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSo
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
         let model = dataSource[row]
-        print(" 🌈 rendering cell at \(row) with model \(model)")
         var cell : BaseTableViewCell? = tableView.dequeueReusableCell(withIdentifier: model.getNibName()!) as! BaseTableViewCell?
         if(cell == nil){
             cell = model.getCellView()
