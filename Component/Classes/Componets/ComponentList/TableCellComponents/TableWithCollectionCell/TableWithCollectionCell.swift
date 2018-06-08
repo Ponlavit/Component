@@ -40,7 +40,6 @@ public class TableWithCollectionCell : BaseTableViewCell {
     }
     
     override public func setupView() {
-        print("render collectionView with model \(self.getModel().name ?? "")")
         if(self.collectionViewModel != nil){
             self.collectionViewModel?.getView().removeFromSuperview()
             self.collectionViewModel = nil
@@ -53,11 +52,9 @@ public class TableWithCollectionCell : BaseTableViewCell {
         self.collectionViewModel?.percentWidth.value = self.getModel().percentWidth.value
         self.collectionViewModel?.height.value = self.getModel().height.value
         self.addSubview((self.collectionViewModel?.getView())!)
+        self.collectionViewModel?.getView().setupView()
         self.collectionViewModel?.getCollectionView()?.setCollectionViewLayout(self.getModel().flow, animated: false)
         self.collectionViewModel?.getCollectionView()?.setContentOffset(CGPoint.zero, animated: false)
-        
-        self.collectionViewModel?.getView().setupView()
-        self.collectionViewModel?.getView().reloadData()
         super.setupView()
     }
     

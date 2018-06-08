@@ -227,11 +227,9 @@ public class BaseCollectionAdapter : NSObject, UICollectionViewDelegate, UIColle
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let row = indexPath.row
         let model = dataSource[row]
-        print(" 🌈 rendering cell at \(row) with model \(model)")
         var cell : BaseCollectionViewCell?
             = collectionView.dequeueReusableCell(withReuseIdentifier: model.getNibName()!, for: indexPath) as? BaseCollectionViewCell
         if(cell == nil){
-            print(" 🌈 not found reusable cell init")
             cell = model.getCellView()
             cell?.bind()
         }

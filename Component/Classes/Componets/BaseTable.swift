@@ -71,12 +71,6 @@ public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSo
         return model.getCellView().getHeighByRatio(width)
     }
     
-    public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let row = indexPath.row
-        let model = dataSource[row]
-        print("⚓️ will render cell at \(row) with model \(model)")
-    }
-    
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
         let model = dataSource[row]
