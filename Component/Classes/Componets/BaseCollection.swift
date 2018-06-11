@@ -207,10 +207,11 @@ open class BaseCollectionAdapter : NSObject, UICollectionViewDelegate, UICollect
         self.varDs = Variable([])
         self.varDs?.value = withDataSource
         self.varDs?.asObservable()
-            .subscribe(onNext: { [unowned self] value in
-                self.baseCollectionView?.getModel()
-                    .onRegisterCell!((self.baseCollectionView?.collectionView)!)
-                self.reload()
+            .subscribe(onNext: { [weak self] value in
+                guard let _self = self else { return }
+                _self.baseCollectionView?.getModel()
+                    .onRegisterCell!((_self.baseCollectionView?.collectionView)!)
+                _self.reload()
             })
             .disposed(by:disposeBag)
     }
