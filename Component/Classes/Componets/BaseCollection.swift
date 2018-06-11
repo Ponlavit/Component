@@ -210,8 +210,10 @@ open class BaseCollectionAdapter : NSObject, UICollectionViewDelegate, UICollect
             .subscribe(onNext: { [weak self] value in
                 guard let _self = self else { return }
                 guard let cell = _self.baseCollectionView else { return }
-                cell.getModel()
-                    .onRegisterCell!((cell.collectionView)!)
+                if(cell.viewModel != nil){
+                    cell.getModel()
+                        .onRegisterCell!((cell.collectionView)!)
+                }
                 _self.reload()
             })
             .disposed(by:disposeBag)
