@@ -191,7 +191,7 @@ public class BaseCollectionView : BaseView {
     }
 }
 
-public class BaseCollectionAdapter : NSObject, UICollectionViewDelegate, UICollectionViewDataSource {
+open class BaseCollectionAdapter : NSObject, UICollectionViewDelegate, UICollectionViewDataSource {
     public private(set) var varDs :Variable<[BaseCollectionViewCellModel]>?
     public var baseCollectionView : BaseCollectionView?
     public var dataSource : [BaseCollectionViewCellModel] {
