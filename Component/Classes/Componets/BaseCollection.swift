@@ -182,6 +182,11 @@ public class BaseCollectionView : BaseView {
     }
     
     
+    public override func getPercentWidth() -> CGFloat {
+        return self.getModel().percentWidth.value
+    }
+    
+    
     public override func getHeight() -> CGFloat {
         return self.getModel().height.value
     }

@@ -138,6 +138,10 @@ public class BaseTableView : BaseView {
         super.setupView()
     }
     
+    public override func getPercentWidth() -> CGFloat {
+        return self.getModel().percentWidth.value
+    }
+    
     public func reloadData(){
         self.tableView?.reloadData()
     }
