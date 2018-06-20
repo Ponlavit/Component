@@ -75,6 +75,10 @@ open class BaseCollectionViewCellModel : ComponentViewModel {
         cell?.viewModel = self
         return cell!
     }
+    
+    open override func getView<T>() -> T where T : BaseViewLC {
+        return self.getCellView() as! T
+    }
 }
 
 
