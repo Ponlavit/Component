@@ -67,8 +67,7 @@ public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSo
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let row = indexPath.row
         let model = dataSource[row]
-        let width = tableView.frame.size.width
-        return model.getCellView().getHeighByRatio(width)
+        return model.height.value
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -231,10 +230,12 @@ open class BaseTableViewCell : UITableViewCell, BaseViewLC {
                        forCellReuseIdentifier: name)
     }
     
+    @available(*, deprecated, message: "Not use anymore")
     open func getWHRatio() -> CGFloat {
         return 1
     }
     
+    @available(*, deprecated, message: "Not use anymore")
     public func getHeighByRatio(_ width:CGFloat) -> CGFloat {
         return self.getWHRatio() * width
     }
