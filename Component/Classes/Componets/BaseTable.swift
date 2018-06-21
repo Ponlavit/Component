@@ -52,7 +52,7 @@ public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSo
             .subscribe(onNext: { [unowned self] value in
                 self.reload()
             })
-        .disposed(by:disposeBag)
+            .disposed(by:disposeBag)
     }
     
     public func replaceSource(withNewSource newSource:[BaseTableViewCellModel]){
@@ -196,7 +196,7 @@ public class BaseTableView : BaseView {
 
 
 open class BaseTableViewCell : UITableViewCell, BaseViewLC {
-    public weak var viewModel : BaseViewModel!
+    public var viewModel : BaseViewModel!
     public var tabGesture : UITapGestureRecognizer?
     
     open func setupView() {

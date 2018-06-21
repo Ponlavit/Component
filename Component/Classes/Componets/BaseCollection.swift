@@ -11,7 +11,7 @@ import RxSwift
 
 open class BaseCollectionViewCell : UICollectionViewCell, BaseViewLC {
     
-    public weak var viewModel : BaseViewModel!
+    public var viewModel : BaseViewModel!
     public var tabGesture : UITapGestureRecognizer?
     open func setupView() {
         if(self.getModel().onSetupView != nil) {
