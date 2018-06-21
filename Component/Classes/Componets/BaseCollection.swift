@@ -22,7 +22,7 @@ open class BaseCollectionViewCell : UICollectionViewCell, BaseViewLC {
     }
     
     @objc func didTap(){
-        print("🎯 did tap collection on cell \(self.getModel().name)")
+        print("🎯 did tap collection on cell \(self.getModel().name ?? "unknow")")
         if let action = self.getModel().didSelectedRow {
             action(self.getModel())
         }
@@ -49,7 +49,7 @@ open class BaseCollectionViewCell : UICollectionViewCell, BaseViewLC {
     }
     
     open func setupAccessibilityId() {
-        self.accessibilityIdentifier = getModel().name
+        self.accessibilityIdentifier = getModel().name ?? NSStringFromClass(self.classForCoder)
     }
     
     open func getModel() -> BaseCollectionViewCellModel {

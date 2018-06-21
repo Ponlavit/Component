@@ -212,7 +212,7 @@ open class BaseTableViewCell : UITableViewCell, BaseViewLC {
     }
     
     @objc func didTap(){
-        print("🎯 did tap table on cell \(self.getModel().name)")
+        print("🎯 did tap table on cell \(self.getModel().name ?? "unknow")")
         if let action = self.getModel().didSelectedRow {
             action(self.getModel())
         }
@@ -241,7 +241,7 @@ open class BaseTableViewCell : UITableViewCell, BaseViewLC {
     }
     
     open func setupAccessibilityId() {
-        self.accessibilityIdentifier = "\(self.getModel().name)"
+        self.accessibilityIdentifier = self.getModel().name ?? NSStringFromClass(self.classForCoder)
     }
     
     open func getModel() -> BaseTableViewCellModel {
