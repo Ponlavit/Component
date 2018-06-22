@@ -19,6 +19,7 @@ open class BaseCollectionViewCell : UICollectionViewCell, BaseViewLC {
         }
         tabGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
         self.addGestureRecognizer(self.tabGesture!)
+        self.bind()
     }
     
     @objc func didTap(){
@@ -60,7 +61,7 @@ open class BaseCollectionViewCell : UICollectionViewCell, BaseViewLC {
 
 open class BaseCollectionViewCellModel : ComponentViewModel {
     public weak var cellView : BaseCollectionViewCell?
-
+    
     public var didSelectedRow : ((_ model:BaseCollectionViewCellModel) -> Swift.Void)?
     public func getCellView() -> BaseCollectionViewCell {
         var cell: BaseCollectionViewCell?
@@ -86,7 +87,7 @@ public class BaseCollectionViewModel : ComponentViewModel {
     public weak var adapter : BaseCollectionAdapter!
     public var isPageEnable : Bool! = false
     public var onRegisterCell : ((_ collectionView:UICollectionView)->Swift.Void)?
-
+    
     public func getCollectionView() -> UICollectionView? {
         return self.adapter.baseCollectionView?.collectionView
     }
@@ -128,12 +129,12 @@ public class BaseCollectionView : BaseView {
         self.collectionView?.translatesAutoresizingMaskIntoConstraints = false
         self.collectionView?.frame = self.bounds
         self.collectionView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
+        
         self.collectionView?.isPagingEnabled = self.getModel().isPageEnable
         self.getModel().adapter.baseCollectionView = self
         super.setupView()
     }
-
+    
     func registerCell(collectionView:UICollectionView){
         for model:BaseCollectionViewCellModel in self.getModel().adapter.dataSource {
             model.getCellView().registerOn(collectionView: collectionView)
@@ -236,7 +237,7 @@ open class BaseCollectionAdapter : NSObject, UICollectionViewDelegate, UICollect
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.dataSource.count
     }
-
+    
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let row = indexPath.row
         let model = dataSource[row]

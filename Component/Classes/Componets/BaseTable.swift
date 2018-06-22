@@ -67,7 +67,7 @@ public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSo
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let row = indexPath.row
         let model = dataSource[row]
-        return model.height.value
+        return model.getCellView().getHeight()
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -205,13 +205,14 @@ open class BaseTableViewCell : UITableViewCell, BaseViewLC {
         }
         tabGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
         self.addGestureRecognizer(self.tabGesture!)
+        self.bind()
     }
     
     open func bind() {
         // do some rx to change sepecific value
     }
     
-    @objc func didTap(){
+    @objc open func didTap(){
         print("🎯 did tap table on cell \(self.getModel().name ?? "unknow")")
         if let action = self.getModel().didSelectedRow {
             action(self.getModel())
@@ -238,6 +239,10 @@ open class BaseTableViewCell : UITableViewCell, BaseViewLC {
     @available(*, deprecated, message: "Not use anymore")
     public func getHeighByRatio(_ width:CGFloat) -> CGFloat {
         return self.getWHRatio() * width
+    }
+    
+    open func getHeight() -> CGFloat {
+        return self.getModel().height.value
     }
     
     open func setupAccessibilityId() {
