@@ -13,6 +13,8 @@ open class TableTitleCellViewModel : BaseTableViewCellModel {
     public var titleText : String!
     public var extraText : String?
     public var titleTextFont : UIFont?
+    public var titleFontColor : UIColor?
+    public var extraTextFontColor : UIColor?
     public var extraTextFont : UIFont?
     public var backgroundColor : UIColor! = .white
     public var isHideBottomLine : Bool! = false
@@ -54,6 +56,15 @@ open class TableTitleCell : BaseTableViewCell {
         
         self.viLine.isHidden = self.getModel().isHideBottomLine
         self.backgroundColor = self.getModel().backgroundColor
+        
+        if let color = self.getModel().titleFontColor {
+            self.lbTitle.textColor = color
+        }
+        
+        if let color = self.getModel().extraTextFontColor {
+            self.lbAddition.textColor = color
+        }
+        
         super.setupView()
     }
     
