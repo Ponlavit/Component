@@ -17,6 +17,7 @@ open class BaseCollectionViewCell : UICollectionViewCell, BaseViewLC {
         if(self.getModel().onSetupView != nil) {
             self.getModel().onSetupView!(self)
         }
+        
         tabGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
         self.addGestureRecognizer(self.tabGesture!)
         self.bind()
@@ -121,6 +122,10 @@ public class BaseCollectionView : BaseView {
     public var onRefresh : ((_ sender:UIRefreshControl) -> Swift.Void)?
     public var onRegisterCell : ((_ collectionView:UICollectionView)->Swift.Void)?
     public override func setupView() {
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.autoresizingMask = [.flexibleWidth]
+        
         self.collectionView?.delegate = self.getModel().adapter
         self.collectionView?.dataSource = self.getModel().adapter
         self.onRegisterCell = self.getModel().onRegisterCell ?? self.registerCell
@@ -129,7 +134,6 @@ public class BaseCollectionView : BaseView {
         self.collectionView?.translatesAutoresizingMaskIntoConstraints = false
         self.collectionView?.frame = self.bounds
         self.collectionView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
         self.collectionView?.isPagingEnabled = self.getModel().isPageEnable
         self.getModel().adapter.baseCollectionView = self
         super.setupView()
