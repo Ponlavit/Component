@@ -238,6 +238,10 @@ open class BaseCollectionAdapter : NSObject, UICollectionViewDelegate, UICollect
         self.varDs?.value = newSource
     }
     
+    public func appendSources(withSource sources:[BaseCollectionViewCellModel]){
+        self.varDs?.value.append(contentsOf: sources)
+    }
+    
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.dataSource.count
     }
