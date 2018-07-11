@@ -1,13 +1,13 @@
 PODS:
   - Base (0.1.0)
-  - Component (0.1.1):
+  - Component (0.1.2):
     - Base
-    - Component/Component (= 0.1.1)
-  - Component/Component (0.1.1):
+    - Component/Component (= 0.1.2)
+  - Component/Component (0.1.2):
     - Base
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
-  - Component/Drawer (0.1.1):
+  - Component/Drawer (0.1.2):
     - Base
     - KWDrawerController
     - KWDrawerController/RxSwift
@@ -25,14 +25,14 @@ PODS:
   - RxSwift (4.1.2)
 
 DEPENDENCIES:
-  - Base (from `../../Base`)
+  - Base (from `https://github.com/Ponlavit/Base`)
   - Component (from `../`)
   - Component/Drawer (from `../`)
   - Nimble (~> 7.0.2)
   - Quick (~> 1.2.0)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - KWDrawerController
     - Nimble
     - Quick
@@ -41,19 +41,24 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   Base:
-    :path: "../../Base"
+    :git: https://github.com/Ponlavit/Base
   Component:
     :path: "../"
 
+CHECKOUT OPTIONS:
+  Base:
+    :commit: 71010609abcfe7785224104fbe5617be7d8a4baa
+    :git: https://github.com/Ponlavit/Base
+
 SPEC CHECKSUMS:
-  Base: 77d206ae3309b0054d5391e888b209830158c4a4
-  Component: 752d97c9cddaf130aabae90c4febc7764f1a02c7
+  Base: 33608d720761e99fa9a2cc6e4d1fdeef35bb7168
+  Component: 1d4ba6004688e8f4b2d048fb915cf55a72d2fd8f
   KWDrawerController: bf8fc10ddc596ddbfdabda401357a99dba04a1c8
   Nimble: 7f5a9c447a33002645a071bddafbfb24ea70e0ac
   Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
   RxCocoa: d88ba0f1f6abf040011a9eb4b539324fc426843a
   RxSwift: e49536837d9901277638493ea537394d4b55f570
 
-PODFILE CHECKSUM: 11e1b6d87eb668554b792c8228c4826b0156be34
+PODFILE CHECKSUM: 0e5dc2212c517c61ecea82a4200c5f9e5bc1ed8a
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3

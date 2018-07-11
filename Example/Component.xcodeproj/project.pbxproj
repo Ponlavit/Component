@@ -20,7 +20,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		729699AF8EE3DA0215DB9A6F /* Pods-Component_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Component_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Component_Tests/Pods-Component_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		EF68E7F6BB9C56187767338D /* Component.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Component.podspec; path = ../Component.podspec; sourceTree = "<group>"; };
+		EF68E7F6BB9C56187767338D /* Component.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Component.podspec; path = ../Component.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
