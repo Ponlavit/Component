@@ -30,7 +30,7 @@ open class BaseCollectionViewCell : UICollectionViewCell, BaseViewLC {
         }
     }
     
-    public func bind() {
+    open func bind() {
         // do some rx to change sepecific value
     }
     
