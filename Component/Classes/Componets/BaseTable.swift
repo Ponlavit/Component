@@ -203,6 +203,13 @@ open class BaseTableViewCell : UITableViewCell, BaseViewLC {
         if(self.getModel().onSetupView != nil) {
             self.getModel().onSetupView!(self)
         }
+        let adjustWidth = (superview?.frame.size.width ?? 0) * self.getModel().percentWidth.value / 100
+        let height = self.getHeight()
+        self.frame = CGRect(origin: self.frame.origin, size: CGSize(width: adjustWidth, height: height))
+        if(self.getModel().onSetupView != nil) {
+            self.getModel().onSetupView!(self)
+        }
+        
         tabGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
         self.addGestureRecognizer(self.tabGesture!)
         self.bind()
