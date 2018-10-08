@@ -18,7 +18,8 @@ open class TableTitleCellViewModel : BaseTableViewCellModel {
     public var extraTextFont : UIFont?
     public var backgroundColor : UIColor! = .white
     public var isHideBottomLine : Bool! = false
-    public var action : URL?
+    public var action:URL?
+    public var didTabAction: ((_ action:URL) -> Swift.Void)?
     public convenience init(_ name:String) {
         self.init(withName: name,
                   nibName: "TableTitleCell")
@@ -40,11 +41,11 @@ open class TableTitleCell : BaseTableViewCell {
     @IBOutlet public weak var lbTitle: UILabel!
     @IBOutlet public weak var viLine: UIView!
     
-    @objc func didTabExtra(_ sender: UITapGestureRecognizer) {
-        guard let action = self.getModel().action else {
-            return
-        }
-        UIApplication.shared.open(action, options: [:])
+    @IBAction func didTabExtra() {
+        guard let didTabAction = self.getModel().didTabAction,
+        let `action` = self.getModel().action
+            else { return }
+        didTabAction(action)
     }
     
     override open func setupView() {
