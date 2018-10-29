@@ -32,7 +32,7 @@ open class BaseTableViewCellModel : ComponentViewModel {
     }
 }
 
-public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSource{
+open class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSource{
     
     public private(set) var varDs :Variable<[BaseTableViewCellModel]>?
     public var baseTableView : BaseTableView?
@@ -46,6 +46,10 @@ public class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSo
     
     public convenience init(withDataSource: [BaseTableViewCellModel], disposeBag:DisposeBag) {
         self.init()
+        self.setupAdapter(withDataSource: withDataSource, disposeBag: disposeBag)
+    }
+    
+    open func setupAdapter(withDataSource: [BaseTableViewCellModel], disposeBag:DisposeBag) {
         self.varDs = Variable([])
         self.varDs?.value = withDataSource
         self.varDs?.asObservable()
