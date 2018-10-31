@@ -30,8 +30,8 @@ open class TableTitleCellViewModel : BaseTableViewCellModel {
         return UINib(nibName: self.getNibName()!, bundle: bundle)
     }
     
-    open override func getCellSelectionStyle() -> UITableViewCellSelectionStyle {
-        return UITableViewCellSelectionStyle.none
+    open override func getCellSelectionStyle() -> UITableViewCell.SelectionStyle {
+        return UITableViewCell.SelectionStyle.none
     }
 }
 

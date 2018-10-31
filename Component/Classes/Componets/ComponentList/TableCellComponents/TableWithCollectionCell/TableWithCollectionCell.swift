@@ -27,16 +27,16 @@ public class TableWithCollectionCellViewModel : BaseTableViewCellModel {
         return UINib(nibName: self.getNibName()!, bundle: bundle)
     }
     
-    public override func getCellSelectionStyle() -> UITableViewCellSelectionStyle {
-        return UITableViewCellSelectionStyle.none
+    public override func getCellSelectionStyle() -> UITableViewCell.SelectionStyle {
+        return UITableViewCell.SelectionStyle.none
     }
 }
 
 public class TableWithCollectionCell : BaseTableViewCell {
     var collectionViewModel : BaseCollectionViewModel?
 
-    func getCellSelectionStyle() -> UITableViewCellSelectionStyle {
-        return UITableViewCellSelectionStyle.none
+    func getCellSelectionStyle() -> UITableViewCell.SelectionStyle {
+        return UITableViewCell.SelectionStyle.none
     }
     
     override public func setupView() {

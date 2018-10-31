@@ -173,7 +173,7 @@ public class BaseCollectionView : BaseView {
                 let refreshControl = UIRefreshControl()
                 refreshControl.addTarget(self,
                                          action: #selector(self.onTriggerRefresh(sender:)),
-                                         for: UIControlEvents.valueChanged)
+                                         for: UIControl.Event.valueChanged)
                 
                 self.collectionView?.refreshControl = refreshControl
             }

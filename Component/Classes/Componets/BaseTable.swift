@@ -12,8 +12,8 @@ import RxSwift
 open class BaseTableViewCellModel : ComponentViewModel {
     public weak var cellView : BaseTableViewCell?
     
-    open func getCellSelectionStyle() -> UITableViewCellSelectionStyle {
-        return UITableViewCellSelectionStyle.default
+    open func getCellSelectionStyle() -> UITableViewCell.SelectionStyle {
+        return UITableViewCell.SelectionStyle.default
     }
     
     public var didSelectedRow : ((_ model:BaseTableViewCellModel) -> Swift.Void)?
@@ -102,7 +102,7 @@ open class BaseTableAdapter : NSObject, UITableViewDelegate, UITableViewDataSour
 
 public class BaseTableViewModel : ComponentViewModel {
     public weak var adapter : BaseTableAdapter!
-    public convenience init(_ name:String!, style:UITableViewStyle? = UITableViewStyle.plain,
+    public convenience init(_ name:String!, style:UITableView.Style? = UITableView.Style.plain,
                             onRefresh:((_ sender:UIRefreshControl)->Swift.Void)? = nil){
         self.init(name, withAdapter: BaseTableAdapter(),style:style)
     }
@@ -113,7 +113,7 @@ public class BaseTableViewModel : ComponentViewModel {
     
     public convenience init(_ name:String!,
                             withAdapter adapter:BaseTableAdapter,
-                            style:UITableViewStyle? = UITableViewStyle.plain,
+                            style:UITableView.Style? = UITableView.Style.plain,
                             onRefresh:((_ sender:UIRefreshControl)->Swift.Void)? = nil){
         self.init(withName: name, nibName: "")
         self.adapter = adapter
@@ -161,7 +161,7 @@ public class BaseTableView : BaseView {
     }
     
     @discardableResult
-    public func initTable(withAdapter:BaseTableAdapter, style:UITableViewStyle,
+    public func initTable(withAdapter:BaseTableAdapter, style:UITableView.Style,
                           onRefresh:((_ sender:UIRefreshControl)->Swift.Void)? = nil) -> UITableView!{
         let tableView = UITableView(frame: CGRect.zero, style: style)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -179,7 +179,7 @@ public class BaseTableView : BaseView {
                 let refreshControl = UIRefreshControl()
                 refreshControl.addTarget(self,
                                          action: #selector(self.onTriggerRefresh(sender:)),
-                                         for: UIControlEvents.valueChanged)
+                                         for: UIControl.Event.valueChanged)
                 
                 tableView.refreshControl = refreshControl
             }
